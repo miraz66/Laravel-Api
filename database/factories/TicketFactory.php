@@ -21,7 +21,7 @@ class TicketFactory extends Factory
             'user_id' => User::factory(),
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
-            'status' => fake()->randomElement(['open', 'closed']),
+            'status' => fake()->randomElement(['active', 'closed']),
         ];
     }
 }

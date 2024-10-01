@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Define routes for API V1
-// Route::resource('tickets', TicketController::class);
 Route::middleware('auth:sanctum')->apiResource('tickets', TicketController::class);
 
 Route::get('/user', function (Request $request) {

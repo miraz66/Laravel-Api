@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\ApiResponses; // Ensure this is at the top of your class
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -29,7 +30,16 @@ class AuthController extends Controller
         // Return a successful response with user information
         return $this->ok(
             'Authenticated',
-            ['token' => $user->createToken('Api token for ' . $request->email)->plainTextToken]
+            ['token' => $user->createToken('Api token for ' . $request->email, ['*'], now()->addMonths(12))->plainTextToken]
         );
+    }
+
+    public function logout(Request $request)
+    {
+        // Revoke the user's current token
+        $request->user()->currentAccessToken()->delete();
+
+        // Return a success response
+        return $this->ok('Logged out successfully');
     }
 }
