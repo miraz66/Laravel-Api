@@ -28,18 +28,14 @@ class TicketResource extends JsonResource
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ],
-            'included' => [
-                new UserResource($this->user)
-            ],
+            'included' => new UserResource($this->whenLoaded('author')),
             'relationships' => [
                 'author' => [
                     'type' => 'users',
                     'id' => $this->user_id
                 ],
                 'links' => [
-                    [
-                        'self' => 'todo',
-                    ]
+                    'self' => route('users.show', $this->user_id),
                 ],
             ],
             'links' => [
