@@ -2,20 +2,20 @@
 
 namespace App\Http\Filters\V1;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 abstract class QueryFilter
 {
-  protected $request;
   protected $builder;
+  protected $request;
 
   public function __construct(Request $request)
   {
     $this->request = $request;
   }
 
-  public function filter($arr)
+  protected function filter($arr)
   {
     foreach ($arr as $key => $value) {
       if (method_exists($this, $key)) {
@@ -30,9 +30,9 @@ abstract class QueryFilter
   {
     $this->builder = $builder;
 
-    foreach ($this->request->all() as $filter => $value) {
-      if (method_exists($this, $filter)) {
-        $builder = $this->$filter($builder, $value);
+    foreach ($this->request->all() as $key => $value) {
+      if (method_exists($this, $key)) {
+        $this->$key($value);
       }
     }
 

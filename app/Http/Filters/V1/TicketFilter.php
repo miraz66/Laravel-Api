@@ -14,23 +14,20 @@ class TicketFilter extends QueryFilter
 
     return $this->builder->whereDate('created_at', $value);
   }
+
   public function include($value)
   {
-
     return $this->builder->with($value);
   }
 
   public function status($value)
   {
-
-    return $this->builder->where('status', explode(',', $value));
+    return $this->builder->whereIn('status', explode(',', $value));
   }
 
   public function title($value)
   {
-    $likeStr = str_replace('*', '%', $value);
-
-    return $this->builder->where('title', 'like', $likeStr);
+    return $this->builder->where('title', 'like', '%' . $value . '%');
   }
 
   public function updatedAt($value)
