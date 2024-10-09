@@ -49,15 +49,21 @@ class TicketController extends ApiController
 
     public function update(UpdateTicketRequest $request, $ticket_id)
     {
-        $ticket_id->update($request->validated());
-        return new TicketResource($ticket_id);
+        try {
+            $ticket = Ticket::findOrFail($ticket_id);
+            $ticket->update($request->mappedAttributes());
+
+            return new TicketResource($ticket);
+        } catch (ModelNotFoundException $exception) {
+            return $this->error('Ticket ' . $ticket_id . ' not be found', 404);
+        }
     }
 
     public function replace(ReplaceTicketRequest $request, $ticket_id)
     {
         try {
             $ticket = Ticket::findOrFail($ticket_id);
-            $ticket->update($request->validated());
+            $ticket->update($request->mappedAttributes());
 
             return new TicketResource($ticket);
         } catch (ModelNotFoundException $exception) {
