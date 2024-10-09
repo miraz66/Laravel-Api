@@ -9,6 +9,7 @@ abstract class QueryFilter
 {
   protected $builder;
   protected $request;
+  protected $sortable = [];
 
   public function __construct(Request $request)
   {
@@ -51,7 +52,17 @@ abstract class QueryFilter
         $sortAttribute = substr($sortAttribute, 1);
       }
 
-      $this->builder->orderBy($sortAttribute, $direction);
+      if (!in_array($sortAttribute, $this->sortable) && !array_key_exists($sortAttribute, $this->sortable)) {
+        continue;
+      }
+
+      $columnName = $this->sortable[$sortAttribute] ?? null;
+
+      if ($columnName === null) {
+        $columnName = $sortAttribute;
+      }
+
+      $this->builder->orderBy($columnName, $direction);
     }
   }
 }

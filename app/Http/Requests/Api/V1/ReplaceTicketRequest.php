@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTicketRequest extends FormRequest
+class ReplaceTicketRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,8 @@ class StoreTicketRequest extends FormRequest
             'data.attributes.title' => ['required', 'string', 'max:255'],
             'data.attributes.description' => ['required', 'string'],
             'data.attributes.status' => ['required', 'string', 'in:active,closed'],
+            'data.relationships.author.data.id' => ['required', 'integer', 'exists:users,id'],
         ];
-
-        if ($this->routeIs('tickets.store')) {
-            $roles['data.relationships.author.data.id'] = ['required', 'exists:users,id'];
-        }
 
         return $roles;
     }
