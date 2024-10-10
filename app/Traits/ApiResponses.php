@@ -14,8 +14,17 @@ trait ApiResponses
     return response()->json(['message' => $message, 'data' => $data, 'status' => $code,]);
   }
 
-  protected function error($message, $statusCode = 404)
+  protected function error($errors = [], $statusCode = null)
   {
-    return response()->json(['error' => $message], $statusCode);
+    if (is_string($errors)) {
+      return response()->json([
+        'message' => $errors,
+        'status' => $statusCode
+      ], $statusCode);
+    }
+
+    return response()->json([
+      'errors' => $errors,
+    ]);
   }
 }

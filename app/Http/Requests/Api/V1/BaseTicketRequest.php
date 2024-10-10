@@ -14,7 +14,7 @@ class BaseTicketRequest extends FormRequest
             'data.attributes.status' => 'status',
             'data.attributes.createdAt' => 'created_at',
             'data.attributes.updatedAt' => 'updated_at',
-            'data.relationships.author.data.id' => 'author_id',
+            'data.relationships.author.data.id' => 'user_id',
         ];
 
         $attributesToUpdate = [];

@@ -6,10 +6,19 @@ use App\Models\Ticket;
 use App\Policies\V1\TicketPolicy;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        Ticket::class => TicketPolicy::class,
+    ];
+
+    /**
+     * Register services.
      */
     public function register(): void
     {
@@ -17,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      */
     public function boot(): void
     {
